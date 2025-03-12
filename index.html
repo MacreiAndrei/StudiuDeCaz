@@ -1,0 +1,385 @@
+<!DOCTYPE html>
+<html lang="ro">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Studiu de Caz: Importanța Git și GitHub</title>
+    <style>
+        :root {
+            --primary-color: #0366d6;
+            --secondary-color: #28a745;
+            --accent-color: #f9826c;
+            --dark-bg: #24292e;
+            --light-bg: #f6f8fa;
+            --text-light: #ffffff;
+            --text-dark: #24292e;
+        }
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+        
+        body {
+            background-color: var(--light-bg);
+            color: var(--text-dark);
+            line-height: 1.6;
+        }
+        
+        header {
+            background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
+            color: var(--text-light);
+            padding: 2rem 0;
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .header-content {
+            position: relative;
+            z-index: 2;
+        }
+        
+        .header-bg {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-image: url('/api/placeholder/1000/300');
+            opacity: 0.1;
+            z-index: 1;
+        }
+        
+        h1 {
+            font-size: 2.5rem;
+            margin-bottom: 1rem;
+            animation: fadeIn 1s ease-in-out;
+        }
+        
+        h2 {
+            font-size: 1.8rem;
+            margin: 1.5rem 0 1rem;
+            color: var(--primary-color);
+            border-bottom: 2px solid var(--primary-color);
+            padding-bottom: 0.5rem;
+        }
+        
+        h3 {
+            font-size: 1.3rem;
+            margin: 1rem 0;
+            color: var(--secondary-color);
+        }
+        
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 2rem;
+        }
+        
+        .intro {
+            background-color: white;
+            padding: 2rem;
+            border-radius: 8px;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+            margin-bottom: 2rem;
+            transition: transform 0.3s ease;
+        }
+        
+        .intro:hover {
+            transform: translateY(-5px);
+        }
+        
+        .card-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+            margin: 2rem 0;
+        }
+        
+        .card {
+            background-color: white;
+            border-radius: 8px;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+            padding: 1.5rem;
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.15);
+        }
+        
+        .card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 5px;
+            background: linear-gradient(90deg, var(--primary-color), var(--secondary-color));
+        }
+        
+        .card h3 {
+            margin-top: 0.5rem;
+        }
+        
+        .card-icon {
+            font-size: 2.5rem;
+            color: var(--primary-color);
+            margin-bottom: 1rem;
+            text-align: center;
+        }
+        
+        .resource-links {
+            background-color: var(--dark-bg);
+            padding: 2rem;
+            border-radius: 8px;
+            margin: 2rem 0;
+        }
+        
+        .resource-links h2 {
+            color: var(--text-light);
+            border-bottom-color: var(--accent-color);
+        }
+        
+        .resource-links ul {
+            list-style-type: none;
+            padding: 0;
+        }
+        
+        .resource-links li {
+            margin: 1rem 0;
+            padding: 1rem;
+            background-color: rgba(255, 255, 255, 0.1);
+            border-radius: 4px;
+            transition: background-color 0.3s ease;
+        }
+        
+        .resource-links li:hover {
+            background-color: rgba(255, 255, 255, 0.2);
+        }
+        
+        .resource-links a {
+            color: var(--text-light);
+            text-decoration: none;
+            display: block;
+            position: relative;
+            padding-left: 2rem;
+        }
+        
+        .resource-links a::before {
+            content: '→';
+            position: absolute;
+            left: 0;
+            transition: transform 0.3s ease;
+        }
+        
+        .resource-links a:hover::before {
+            transform: translateX(5px);
+        }
+        
+        .steps {
+            counter-reset: step-counter;
+            margin: 2rem 0;
+        }
+        
+        .step {
+            background-color: white;
+            padding: 1.5rem;
+            border-radius: 8px;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+            margin-bottom: 1.5rem;
+            position: relative;
+            padding-left: 3rem;
+        }
+        
+        .step::before {
+            counter-increment: step-counter;
+            content: counter(step-counter);
+            position: absolute;
+            left: -1rem;
+            top: 50%;
+            transform: translateY(-50%);
+            background-color: var(--primary-color);
+            color: var(--text-light);
+            width: 2.5rem;
+            height: 2.5rem;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+        }
+        
+        .highlight-box {
+            background-color: #fff3cd;
+            border-left: 5px solid #ffc107;
+            padding: 1rem;
+            margin: 1.5rem 0;
+            border-radius: 4px;
+        }
+        
+        .conclusion {
+            background: linear-gradient(135deg, var(--primary-color) 0%, var(--secondary-color) 100%);
+            color: var(--text-light);
+            padding: 2rem;
+            border-radius: 8px;
+            margin-top: 2rem;
+        }
+        
+        footer {
+            text-align: center;
+            padding: 2rem;
+            background-color: var(--dark-bg);
+            color: var(--text-light);
+            margin-top: 2rem;
+        }
+        
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(-20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        
+        @keyframes pulse {
+            0% { transform: scale(1); }
+            50% { transform: scale(1.05); }
+            100% { transform: scale(1); }
+        }
+        
+        .pulse {
+            animation: pulse 2s infinite;
+        }
+        
+        .code-block {
+            background-color: var(--dark-bg);
+            color: var(--text-light);
+            padding: 1rem;
+            border-radius: 4px;
+            overflow-x: auto;
+            margin: 1rem 0;
+        }
+        
+        .code-block code {
+            font-family: 'Courier New', Courier, monospace;
+        }
+        
+        @media (max-width: 768px) {
+            h1 {
+                font-size: 2rem;
+            }
+            
+            h2 {
+                font-size: 1.5rem;
+            }
+            
+            .card-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .container {
+                padding: 1rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <div class="header-bg"></div>
+        <div class="header-content">
+            <h1>Studiu de Caz: Importanța Utilizării Git și GitHub</h1>
+            <p>Lucrul la un proiect comun în echipă</p>
+        </div>
+    </header>
+
+    <div class="container">
+        <section class="intro">
+            <h2>Introducere</h2>
+            <p>În era digitală actuală, dezvoltarea software a evoluat de la eforturile individuale la colaborări complexe între echipe distribuite global. Această transformare a creat nevoia unor instrumente eficiente pentru gestionarea codului sursă, controlul versiunilor și colaborarea în timp real. Aici intervin Git și GitHub - tehnologii care au revoluționat modul în care echipele dezvoltă și mențin proiecte software.</p>
+            <p>Acest studiu de caz explorează importanța utilizării Git și GitHub în procesul de dezvoltare colaborativă, oferind o perspectivă asupra modului în care aceste instrumente pot îmbunătăți eficiența, calitatea și viteza de livrare a proiectelor software.</p>
+        </section>
+
+        <section>
+            <h2>Ce este Git?</h2>
+            <p>Git este un sistem de control al versiunilor distribuit, creat de Linus Torvalds în 2005. Acesta permite mai multor dezvoltatori să lucreze simultan la același proiect fără a se suprapune sau a pierde modificările făcute.</p>
+            
+            <div class="card-grid">
+                <div class="card">
+                    <div class="card-icon">🔄</div>
+                    <h3>Control al versiunilor</h3>
+                    <p>Git păstrează un istoric complet al tuturor modificărilor, permițând revenirea la orice versiune anterioară a proiectului.</p>
+                </div>
+                <div class="card">
+                    <div class="card-icon">🌐</div>
+                    <h3>Sistem distribuit</h3>
+                    <p>Fiecare dezvoltator are o copie completă a proiectului, inclusiv istoricul acestuia, permițând lucrul offline.</p>
+                </div>
+                <div class="card">
+                    <div class="card-icon">🔀</div>
+                    <h3>Branching și Merging</h3>
+                    <p>Permite crearea de ramuri separate pentru dezvoltarea de funcționalități noi fără a afecta codul principal.</p>
+                </div>
+            </div>
+        </section>
+
+        <section>
+            <h2>Ce este GitHub?</h2>
+            <p>GitHub este o platformă web care oferă hosting pentru proiecte care folosesc Git. Aceasta adaugă o interfață grafică și funcționalități sociale care facilitează colaborarea în echipă.</p>
+            
+            <div class="card-grid">
+                <div class="card">
+                    <div class="card-icon">📊</div>
+                    <h3>Hosting și vizualizare</h3>
+                    <p>Oferă hosting pentru proiecte și o interfață prietenoasă pentru vizualizarea codului și a modificărilor.</p>
+                </div>
+                <div class="card">
+                    <div class="card-icon">👥</div>
+                    <h3>Colaborare</h3>
+                    <p>Facilitează colaborarea prin funcționalități precum pull requests, code reviews și discuții pe cod.</p>
+                </div>
+                <div class="card">
+                    <div class="card-icon">🛠️</div>
+                    <h3>Proiecte și Issue Tracking</h3>
+                    <p>Permite gestionarea proiectelor, urmărirea problemelor și organizarea sarcinilor echipei.</p>
+                </div>
+            </div>
+        </section>
+
+        <section class="resource-links">
+            <h2>Resurse Oficiale GitHub</h2>
+            <ul>
+                <li><a href="https://docs.github.com/en/issues/planning-and-tracking-with-projects/learning-about-projects/about-projects" target="_blank">Despre proiecte în GitHub</a></li>
+                <li><a href="https://docs.github.com/en/issues/planning-and-tracking-with-projects/creating-projects/creating-a-project" target="_blank">Crearea unui proiect în GitHub</a></li>
+                <li><a href="https://docs.github.com/en/issues/planning-and-tracking-with-projects/creating-projects/copying-an-existing-project" target="_blank">Copierea unui proiect existent</a></li>
+                <li><a href="https://docs.github.com/en/issues/planning-and-tracking-with-projects/creating-projects/migrating-from-projects-classic" target="_blank">Migrarea de la Projects Classic</a></li>
+            </ul>
+        </section>
+
+        <section>
+            <h2>Beneficiile utilizării Git și GitHub în proiecte de echipă</h2>
+            
+            <div class="card-grid">
+                <div class="card">
+                    <h3>Eficiență crescută</h3>
+                    <p>Automatizarea proceselor de integrare și deployment reduce timpul de livrare și erorile umane.</p>
+                </div>
+                <div class="card">
+                    <h3>Trasabilitate completă</h3>
+                    <p>Fiecare modificare este documentată, cu autor și dată, facilitând urmărirea progresului și rezolvarea problemelor.</p>
+                </div>
+                <div class="card">
+                    <h3>Colaborare fără bariere</h3>
+                    <p>Membrii echipei pot lucra simultan din orice colț al lumii, fără a interfera unii cu alții.</p>
+                </div>
+                <div class="card">
+                    <h3>Revenire facilă</h3>
+                    <p>Posibilitatea de a reveni la versiuni anterioare în cazul unor erori sau probleme neașteptate.</p>
+                </div>
+                <div class="card">
+                    <h3>Integrare cu alte instrumente</h3>
+                    <p>GitHub se integrează cu o varietate de instrumente de dezvoltare, testare și deployment.</p>
+                </div>
